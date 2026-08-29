@@ -30,7 +30,7 @@ npx @truefoundry/trueforge@latest
 PR_GUARD_MODEL=anthropic/claude-sonnet-4-6 ./scripts/register-agent.sh
 
 # 4. Import skill (after pushing this repo public)
-PR_GUARD_REPO_URL=https://github.com/YOU/pr-guard ./scripts/import-skill.sh
+PR_GUARD_REPO_URL=https://github.com/sridhar852002/pr-guard ./scripts/import-skill.sh
 
 # 5. Run on a fixture PR (reliable demo — see demo/vulnerable-api/)
 ```

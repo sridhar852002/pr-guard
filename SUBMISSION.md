@@ -14,7 +14,7 @@ Replace `YOUR_*` placeholders before submitting.
 
 ## GitHub link
 
-`https://github.com/YOUR_USER/pr-guard`
+`https://github.com/sridhar852002/pr-guard`
 
 ## Deployed link
 

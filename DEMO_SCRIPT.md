@@ -21,7 +21,7 @@ Split screen or cut:
 
 **0:35–1:25 — Run on fixture PR**
 
-Paste: `Review this pull request end to end: https://github.com/YOU/vulnerable-api-fixture/pull/1`
+Paste: `Review this pull request end to end: https://github.com/sridhar852002/vulnerable-api-fixture/pull/1`
 
 Narrate agent steps as they stream:
 - `pull_request_read` — reading diff
