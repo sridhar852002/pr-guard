@@ -1,0 +1,55 @@
+diff --git a/src/config.js b/src/config.js
+new file mode 100644
+index 0000000..1111111
+--- /dev/null
++++ b/src/config.js
+@@ -0,0 +1,5 @@
++/** Intentionally bad for PR Guard demo — do not copy. */
++module.exports = {
++  apiKey: 'sk-demo-7f3a9b2c1d4e5f6a',
++  adminBypass: true,
++};
+diff --git a/src/login.js b/src/login.js
+index 1111111..2222222
+--- a/src/login.js
++++ b/src/login.js
+@@ -1,16 +1,28 @@
+ const users = [{ id: 1, username: 'alice', password: 'secret123' }];
++const { apiKey } = require('./config.js');
+ 
+ /** Demo-only login — the PR branch makes this worse on purpose. */
+ function findUser(username) {
+-  return users.find((u) => u.username === username);
++  // Intentional injection pattern for demo: user input in query string
++  const query = "SELECT * FROM users WHERE username = '" + username + "'";
++  return users.find((u) => query.includes(u.username));
+ }
+ 
+ function login(username, password) {
+   const user = findUser(username);
+   if (!user || user.password !== password) {
+     return { ok: false };
+   }
+-  return { ok: true, token: `demo-${user.id}` };
++  return { ok: true, token: `demo-${user.id}`, apiKey };
+ }
+ 
+-module.exports = { login, findUser };
++function adminAction(_req) {
++  // Intentional: no auth check on destructive admin path
++  return { deleted: true, scope: 'all_users' };
++}
++
++module.exports = { login, findUser, adminAction };
+diff --git a/tests/login.test.js b/tests/login.test.js
+index 3333333..4444444
+--- a/tests/login.test.js
++++ b/tests/login.test.js
+@@ -8,3 +8,8 @@ test('invalid credentials fail', () => {
+   assert.equal(login('alice', 'wrong').ok, false);
+ });
++
++test('admin action returns success (tests do not cover auth)', () => {
++  const { adminAction } = require('../src/login.js');
++  assert.equal(adminAction({}).deleted, true);
++});
