@@ -4,6 +4,6 @@
   "private": true,
   "description": "Intentionally flawed demo target for PR Guard hackathon recordings. Do not deploy.",
   "scripts": {
-    "test": "node --test tests/"
+    "test": "node --test tests/*.test.js"
   }
 }
