@@ -3,7 +3,7 @@
 set -euo pipefail
 
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
-MODEL="${PR_GUARD_MODEL:-anthropic/claude-sonnet-4-6}"
+MODEL="${PR_GUARD_MODEL:-fireworks/minimax-m3}"
 GITHUB_CONNECTOR="${PR_GUARD_GITHUB_CONNECTOR:-github}"
 BASE="${TRUEFORGE_URL:-http://localhost:8790}"
 
