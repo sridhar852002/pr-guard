@@ -14,7 +14,7 @@ check() {
   fi
 }
 
-check curl -sf "$BASE/api/v1/health" >/dev/null
+check curl -sf "$BASE/api/v1/agents" >/dev/null
 check test -n "${ANTHROPIC_API_KEY:-${OPENAI_API_KEY:-}}"
 check command -v jq >/dev/null
 check command -v node >/dev/null

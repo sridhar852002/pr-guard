@@ -7,7 +7,7 @@ MODEL="${PR_GUARD_MODEL:-anthropic/claude-sonnet-4-6}"
 GITHUB_CONNECTOR="${PR_GUARD_GITHUB_CONNECTOR:-github}"
 BASE="${TRUEFORGE_URL:-http://localhost:8790}"
 
-if ! curl -sf "$BASE/api/v1/health" >/dev/null 2>&1; then
+if ! curl -sf "$BASE/api/v1/agents" >/dev/null 2>&1; then
   echo "TrueForge not reachable at $BASE — start it first:"
   echo "  npx @truefoundry/trueforge@latest"
   exit 1
