@@ -43,7 +43,8 @@ Inline comments per finding (blocked by a GitHub MCP bug on out-of-diff lines), 
 
 ---
 
-**Repo:** https://github.com/YOU/pr-guard  
-**Demo:** [YouTube link]
+**Repo:** https://github.com/sridhar852002/pr-guard  
+**Demo PR (use this in TrueForge):** https://github.com/sridhar852002/vulnerable-api-fixture/pull/1  
+**Qodo PR:** https://github.com/sridhar852002/pr-guard/pull/1
 
 Built with TrueForge. Reviewed with Qodo. #AgentHarness #TrueForge #WeMakeDevs
