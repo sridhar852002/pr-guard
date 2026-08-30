@@ -1,31 +1,15 @@
 {
   "name": "pr-guard",
   "version": "1.0.0",
-  "description": "Built for [WeMakeDevs' Agent Harness Hackathon](https://www.wemakedevs.org/hackathons/trueforge) — targeting **Best Use of TrueForge (NVIDIA DGX Spark)**.",
-  "main": "index.js",
+  "description": "Approval-gated security PR review agent on TrueForge",
   "scripts": {
     "test": "cd demo/vulnerable-api && npm test",
-    "voiceover": "node scripts/add-voiceover.cjs",
-    "ui": "node scripts/serve-ui.cjs",
-    "record:ui": "node scripts/record-ui-demo.cjs"
-  },
-  "dependencies": {
-    "edge-tts-universal": "^1.4.0",
-    "ffmpeg-static": "^5.2.0"
+    "ui": "node scripts/serve-ui.cjs"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/sridhar852002/pr-guard.git"
   },
-  "keywords": [],
-  "author": "",
   "license": "ISC",
-  "type": "commonjs",
-  "bugs": {
-    "url": "https://github.com/sridhar852002/pr-guard/issues"
-  },
-  "homepage": "https://github.com/sridhar852002/pr-guard#readme",
-  "devDependencies": {
-    "playwright": "^1.62.1"
-  }
+  "type": "commonjs"
 }

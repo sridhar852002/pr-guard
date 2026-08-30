@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Quick health check before recording your demo.
+# Check that TrueForge is up and local tools exist.
 set -euo pipefail
 
 BASE="${TRUEFORGE_URL:-http://localhost:8790}"
