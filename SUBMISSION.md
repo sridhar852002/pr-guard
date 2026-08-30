@@ -23,7 +23,7 @@ Leave blank (local TrueForge + fixture repo is fine).
 
 ## YouTube demo
 
-`https://youtube.com/watch?v=YOUR_VIDEO_ID`
+Upload **`demo/recordings/pr-guard-console-your-voice.mp4`** (local only — not in git) as **Unlisted**, then paste that link.
 
 ## What does your project do?
 
@@ -46,7 +46,7 @@ Agent spec: `agent/pr-guard.agent.json` (API-created because the UI doesn't expo
 
 Every substantive change shipped via branch → PR → Qodo `/agentic_review` → fix or dismiss with reason → merge. See README § Qodo Code Review Evidence.
 
-Representative PR: https://github.com/sridhar852002/pr-guard/pull/2 (re-enabled parallel subagents for Best Use of TrueForge). After Qodo reviewed, we fixed valid High findings (or dismissed intentional demo-fixture patterns with a reason in the thread), re-ran `/agentic_review`, then merged. Judges can open the PR history for the full review trail.
+Representative PR: https://github.com/sridhar852002/pr-guard/pull/1 — Qodo found High issues (wildcard CORS, unvalidated PR URL, `innerHTML` log sink, approval race, CLI auto-allow). We fixed them, re-ran `/agentic_review`, then merged. Judges can open that PR for the full review trail.
 
 ## Blog link (optional — Field Report / Keychron track)
 
