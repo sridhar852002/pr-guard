@@ -3,88 +3,137 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>PR Guard — Security Review Console</title>
+  <title>PR Guard — Agent Operation Center</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="/styles.css" />
 </head>
 <body>
-  <div class="bg-grid"></div>
-  <div class="app">
-    <header class="topbar">
-      <div class="brand">
-        <div class="logo" aria-hidden="true">
-          <svg viewBox="0 0 32 32" fill="none"><path d="M16 3L28 9v14l-12 6L4 23V9L16 3z" stroke="currentColor" stroke-width="1.5"/><path d="M11 16l3 3 7-7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  <div class="shell">
+    <aside class="sidebar">
+      <div class="sidebar-brand">
+        <div class="mark" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none"><path d="M12 2l8 4.5v9L12 20l-8-4.5v-9L12 2z" stroke="currentColor" stroke-width="1.5"/><path d="M9 12l2 2 4-4" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/></svg>
         </div>
         <div>
-          <h1>PR Guard</h1>
-          <p class="tagline">Approval-gated security review on TrueForge</p>
+          <strong>PR Guard</strong>
+          <span>TrueForge · Operation Center</span>
         </div>
       </div>
-      <div class="topbar-meta">
-        <div class="pill" id="harness-status">
-          <span class="dot"></span>
-          <span>Checking harness…</span>
+
+      <nav class="sidebar-nav" aria-label="Sections">
+        <a href="#queue" class="nav-item active"><span class="nav-dot"></span>Review queue</a>
+        <a href="#pipeline" class="nav-item"><span class="nav-dot"></span>Pipeline</a>
+        <a href="#trace" class="nav-item"><span class="nav-dot"></span>Live trace</a>
+      </nav>
+
+      <div class="sidebar-stats">
+        <div class="stat">
+          <span class="stat-label">Harness</span>
+          <span class="stat-value" id="harness-status">Checking…</span>
         </div>
-        <a class="ghost-link" id="tf-link" href="http://localhost:8790" target="_blank" rel="noopener">TrueForge ↗</a>
+        <div class="stat">
+          <span class="stat-label">Session</span>
+          <span class="stat-value mono" id="session-id">—</span>
+        </div>
+        <div class="stat">
+          <span class="stat-label">Elapsed</span>
+          <span class="stat-value mono" id="elapsed">0:00</span>
+        </div>
       </div>
-    </header>
 
-    <main class="layout">
-      <section class="panel input-panel">
-        <label for="pr-url">Pull request URL</label>
-        <div class="input-row">
-          <input id="pr-url" type="url" placeholder="https://github.com/org/repo/pull/1" spellcheck="false" />
-          <button id="start-btn" class="btn primary">Start review</button>
+      <div class="sidebar-shortcuts">
+        <p>Shortcuts</p>
+        <kbd><span>⌘</span>↵</kbd> start
+        <kbd>A</kbd> allow
+        <kbd>D</kbd> deny
+      </div>
+
+      <a class="sidebar-link" id="tf-link" href="http://localhost:8790" target="_blank" rel="noopener">Open TrueForge ↗</a>
+    </aside>
+
+    <main class="main">
+      <header class="main-header">
+        <div>
+          <p class="eyebrow">Human-in-the-loop · Best UI track</p>
+          <h1>Security review console</h1>
         </div>
-        <p class="hint">Uses MCP read → sandbox tests ∥ security skill → draft → <strong>Allow</strong> before post.</p>
-      </section>
+        <div class="header-actions">
+          <span class="run-pill idle" id="run-status">Idle</span>
+        </div>
+      </header>
 
-      <section class="pipeline" aria-label="Review pipeline">
-        <div class="stage" data-stage="read"><span class="stage-num">1</span><span class="stage-label">Read PR</span><span class="stage-sub">MCP</span></div>
-        <div class="stage" data-stage="sandbox"><span class="stage-num">2</span><span class="stage-label">Sandbox</span><span class="stage-sub">npm test</span></div>
-        <div class="stage" data-stage="security"><span class="stage-num">3</span><span class="stage-label">Security</span><span class="stage-sub">skill</span></div>
-        <div class="stage" data-stage="draft"><span class="stage-num">4</span><span class="stage-label">Draft</span><span class="stage-sub">review</span></div>
-        <div class="stage" data-stage="gate"><span class="stage-num">5</span><span class="stage-label">Approval</span><span class="stage-sub">gate</span></div>
-        <div class="stage" data-stage="done"><span class="stage-num">6</span><span class="stage-label">Posted</span><span class="stage-sub">GitHub</span></div>
-      </section>
-
-      <div class="columns">
-        <section class="panel activity-panel">
-          <div class="panel-head">
-            <h2>Live activity</h2>
-            <span class="session-id" id="session-id">—</span>
+      <!-- Level 1: Intervention queue (always visible per agent-dashboard research) -->
+      <section id="queue" class="intervention idle" aria-live="polite">
+        <div class="intervention-inner" id="intervention-idle">
+          <div class="intervention-icon calm">◎</div>
+          <div>
+            <h2>No pending approvals</h2>
+            <p>Irreversible actions pause here with an evidence pack before they execute.</p>
           </div>
-          <ul id="activity-log" class="activity-log"></ul>
+        </div>
+        <div class="intervention-inner hidden" id="intervention-active">
+          <div class="intervention-icon urgent">!</div>
+          <div class="intervention-body">
+            <div class="intervention-head">
+              <h2 id="approval-title">Licence required — approve before post</h2>
+              <span class="risk-badge high">High blast radius</span>
+            </div>
+            <p class="intervention-desc">The agent proposes a <strong>public GitHub review comment</strong>. This cannot be undone.</p>
+            <div class="evidence-pack">
+              <div class="evidence-row"><span>Tool</span><code id="approval-tool-name">pull_request_review_write</code></div>
+              <div class="evidence-row"><span>Why</span><span id="approval-why">Draft review ready — posting is the only irreversible step</span></div>
+              <div class="evidence-row"><span>Payload</span><pre id="approval-args"></pre></div>
+            </div>
+            <div class="intervention-actions">
+              <button id="deny-btn" class="btn ghost">Deny <kbd>D</kbd></button>
+              <button id="allow-btn" class="btn accent">Allow — post review <kbd>A</kbd></button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="command-bar panel">
+        <label for="pr-url">Pull request</label>
+        <div class="command-row">
+          <div class="input-wrap">
+            <span class="input-icon">⎇</span>
+            <input id="pr-url" type="url" placeholder="https://github.com/org/repo/pull/1" spellcheck="false" autocomplete="off" />
+          </div>
+          <button id="start-btn" class="btn accent">Start review <kbd>⌘↵</kbd></button>
+        </div>
+        <p class="command-hint">MCP read → sandbox tests ∥ security subagents → draft → <em>your Allow</em> → GitHub</p>
+      </section>
+
+      <section id="pipeline" class="stepper" aria-label="Review pipeline">
+        <div class="step" data-stage="read"><div class="step-track"><span class="step-dot"></span></div><span class="step-name">Read PR</span><span class="step-meta">MCP</span></div>
+        <div class="step" data-stage="sandbox"><div class="step-track"><span class="step-dot"></span></div><span class="step-name">Sandbox</span><span class="step-meta">tests</span></div>
+        <div class="step" data-stage="security"><div class="step-track"><span class="step-dot"></span></div><span class="step-name">Security</span><span class="step-meta">skill</span></div>
+        <div class="step" data-stage="draft"><div class="step-track"><span class="step-dot"></span></div><span class="step-name">Draft</span><span class="step-meta">review</span></div>
+        <div class="step" data-stage="gate"><div class="step-track"><span class="step-dot"></span></div><span class="step-name">Approval</span><span class="step-meta">gate</span></div>
+        <div class="step" data-stage="done"><div class="step-track"><span class="step-dot"></span></div><span class="step-name">Posted</span><span class="step-meta">GitHub</span></div>
+      </section>
+
+      <div class="grid-3" id="trace">
+        <section class="panel trace-panel">
+          <div class="panel-title"><h2>Live trace</h2><span class="chip" id="subagent-chip">2 subagents</span></div>
+          <ul id="activity-log" class="trace-list"></ul>
+        </section>
+
+        <section class="panel findings-panel">
+          <div class="panel-title"><h2>Findings</h2><span class="chip muted" id="findings-count">0</span></div>
+          <div id="findings-list" class="findings-list">
+            <p class="empty">Findings appear when the security scan completes.</p>
+          </div>
         </section>
 
         <section class="panel output-panel">
-          <div class="panel-head">
-            <h2>Agent output</h2>
-            <span class="status-badge idle" id="run-status">Idle</span>
-          </div>
+          <div class="panel-title"><h2>Review draft</h2></div>
           <pre id="output" class="output">Paste a PR URL and start a review.</pre>
         </section>
       </div>
     </main>
-
-    <div id="approval-overlay" class="approval-overlay hidden" role="dialog" aria-modal="true" aria-labelledby="approval-title">
-      <div class="approval-card">
-        <div class="approval-icon">⚠</div>
-        <h2 id="approval-title">Licence required</h2>
-        <p class="approval-desc">The agent wants to post a <strong>public GitHub review</strong>. This action is irreversible.</p>
-        <div class="approval-tool">
-          <code id="approval-tool-name">pull_request_review_write</code>
-          <pre id="approval-args"></pre>
-        </div>
-        <div class="approval-actions">
-          <button id="deny-btn" class="btn danger">Deny</button>
-          <button id="allow-btn" class="btn success">Allow — post review</button>
-        </div>
-        <p class="approval-foot">TrueForge pauses here by design. Judges should see this screen.</p>
-      </div>
-    </div>
   </div>
   <script src="/app.js"></script>
 </body>

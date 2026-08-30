@@ -6,15 +6,19 @@ Built for [WeMakeDevs' Agent Harness Hackathon](https://www.wemakedevs.org/hacka
 
 ## PR Guard Console (Best UI)
 
-A purpose-built dashboard — not just the default chat. Shows pipeline progress, live activity, agent output, and a **full-screen approval gate** before the irreversible GitHub write.
+Research-backed **agent operation center** — not default chat. Built for the hackathon **Best UI (iPad)** track:
+
+- **Intervention queue first** — approval gate always visible at top with evidence pack (tool, why, payload)
+- **Linear/Vercel dark-first** — layered surfaces, single accent, keyboard shortcuts
+- **Live trace + findings cards** — severity-parsed security results, elapsed timer, subagent indicators
 
 ```bash
 npx @truefoundry/trueforge@latest          # terminal 1
 ./scripts/register-agent.sh               # once
-node scripts/serve-ui.cjs                 # terminal 2 → http://localhost:8800
+npm run ui                                # terminal 2 → http://localhost:8800
 ```
 
-Judges: open the console, paste the fixture PR URL, click **Start review**, then **Allow** when the gate appears. Film this UI in your demo video for the iPad track.
+Film the **approval gate section** and **Allow click** for judges. Shortcuts: `⌘↵` start · `A` allow · `D` deny.
 
 ## Harness features (what judges score)
 
