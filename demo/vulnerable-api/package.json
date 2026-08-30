@@ -2,7 +2,7 @@
   "name": "vulnerable-api-fixture",
   "version": "1.0.0",
   "private": true,
-  "description": "Intentionally flawed demo target for PR Guard hackathon recordings. Do not deploy.",
+  "description": "Intentionally flawed API used as a PR Guard fixture. Do not deploy.",
   "scripts": {
     "test": "node --test tests/*.test.js"
   }

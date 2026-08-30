@@ -77,7 +77,7 @@ if gh repo view "$GITHUB_USER/$REPO_NAME" >/dev/null 2>&1; then
   git push -f origin main feat/insecure-login
 else
   gh repo create "$GITHUB_USER/$REPO_NAME" --public \
-    --description "Demo fixture for PR Guard hackathon agent (intentional vulns)" \
+    --description "Intentionally vulnerable API fixture for PR Guard" \
     --source=. --remote=origin --push
   git push -u origin feat/insecure-login
 fi
@@ -87,7 +87,7 @@ if [[ -z "$PR_URL" ]]; then
   PR_URL=$(gh pr create --repo "$GITHUB_USER/$REPO_NAME" \
     --base main --head feat/insecure-login \
     --title "Add admin endpoint and config (demo vulns)" \
-    --body "Intentionally insecure changes for PR Guard hackathon demo. Do not merge to production." \
+    --body "Intentionally insecure changes for PR Guard to review. Do not merge to production." \
     2>&1)
 fi
 
