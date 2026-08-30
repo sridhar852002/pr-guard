@@ -1,8 +1,24 @@
 # PR Guard — approval-gated security review on TrueForge
 
-Built for [WeMakeDevs' Agent Harness Hackathon](https://www.wemakedevs.org/hackathons/trueforge) — targeting **Best Use of TrueForge (NVIDIA DGX Spark)**.
+Built for [WeMakeDevs' Agent Harness Hackathon](https://www.wemakedevs.org/hackathons/trueforge) — **Best Use of TrueForge (DGX Spark)** · **Best UI (iPad)** · Qodo code quality trail.
 
 **Real job:** hand a pull request to an agent that reads it, runs tests in a sandbox, scans for security issues, and **stops for your Allow** before posting a public review.
+
+## PR Guard Console (Best UI)
+
+Research-backed **agent operation center** — not default chat. Built for the hackathon **Best UI (iPad)** track:
+
+- **Intervention queue first** — approval gate always visible at top with evidence pack (tool, why, payload)
+- **Linear/Vercel dark-first** — layered surfaces, single accent, keyboard shortcuts
+- **Live trace + findings cards** — severity-parsed security results, elapsed timer, subagent indicators
+
+```bash
+npx @truefoundry/trueforge@latest          # terminal 1
+./scripts/register-agent.sh               # once
+npm run ui                                # terminal 2 → http://localhost:8800
+```
+
+Film the **approval gate section** and **Allow click** for judges. Shortcuts: `⌘↵` start · `A` allow · `D` deny.
 
 ## Harness features (what judges score)
 
@@ -26,8 +42,8 @@ npx @truefoundry/trueforge@latest
 
 # 2. Add model (Settings → Models) and GitHub connector (Settings → Connectors, name: github)
 
-# 3. Register agent (override model if needed)
-PR_GUARD_MODEL=anthropic/claude-sonnet-4-6 ./scripts/register-agent.sh
+# 3. Register agent (defaults to fireworks/minimax-m3 — see FIREWORKS.md)
+./scripts/register-agent.sh
 
 # 4. Import skill (after pushing this repo public)
 PR_GUARD_REPO_URL=https://github.com/sridhar852002/pr-guard ./scripts/import-skill.sh
@@ -65,14 +81,14 @@ Winning submissions demo restart survival:
 
 ## Qodo Code Review Evidence
 
-Required for every submission. Fill in after your first merged PR:
+Hackathon rule: every substantive change goes through a PR reviewed by Qodo before merge.
 
-- **Representative PR:** <!-- https://github.com/YOU/pr-guard/pull/N -->
-- **What Qodo surfaced:** <!-- e.g. missing error handling in scripts/register-agent.sh -->
-- **What we did:** <!-- fixed / dismissed because ... -->
-- **Follow-up review:** <!-- /agentic_review after fixes -->
+- **Representative PR:** https://github.com/sridhar852002/pr-guard/pull/1 — submission pack: PR Guard Console UI, voiceover pipeline, Qodo workflow docs
+- **What Qodo surfaced:** High — wildcard CORS on API proxy; unvalidated PR URL in agent prompt; `innerHTML` log sink; `submitApproval` cleared pending action before use; CLI auto-allowed reviews by default. Medium — missing Playwright dep, failing `npm test`, qodo-check false positives.
+- **What we did:** Removed wildcard CORS + allowlisted loopback API routes; validated GitHub PR URLs; safe DOM logging; fixed approval race; default `PR_GUARD_AUTO_ALLOW=0`; added Playwright devDep + fixture `npm test`; hardened qodo-check exits.
+- **Follow-up review:** `/agentic_review` after fixes → merge
 
-Setup: [Qodo → Integrations → GitHub](https://app.qodo.ai) → authorize repo → branch → PR → `/agentic_review` → merge.
+**Setup:** [`QODO_SETUP.md`](QODO_SETUP.md) · verify: `./scripts/qodo-check.sh`
 
 ## Docs
 

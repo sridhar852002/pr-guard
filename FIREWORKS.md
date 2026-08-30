@@ -8,8 +8,8 @@ PR Guard defaults to **`fireworks/minimax-m3`** with credit-saving settings:
 |---|---|---|
 | `reasoning_effort` | `none` | Skips expensive reasoning tokens |
 | `max_tokens` | 2048 | Enough for a review comment |
-| `iteration_limit` | 25 | Caps runaway tool loops |
-| `dynamic_sub_agents` | off | 1 model call at a time (cheaper) |
+| `iteration_limit` | 40 | Enough for subagent demo depth |
+| `dynamic_sub_agents` | **on** (for final demo) | Parallel test ∥ security scan — required for DGX track depth |
 | `generative_ui` | off | Less overhead |
 
 Register:
@@ -48,4 +48,4 @@ TrueForge's built-in Fireworks catalog doesn't include tiny models. For **~$0.10
 | glm-5p2 | $$$$ | No |
 | kimi-k3 | $$$$$ | No |
 
-After upgrading for the hackathon demo, re-enable subagents in `agent/pr-guard.agent.json` (`dynamic_sub_agents.enabled: true`) for a stronger DGX Spark score — but test once with cheap settings first.
+Subagents are **on** in `agent/pr-guard.agent.json` for the final demo. Expect ~2× token use vs the smoke test. Record **one** take of the full flow, then submit.

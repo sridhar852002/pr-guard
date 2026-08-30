@@ -10,6 +10,7 @@ Replace `YOUR_*` placeholders before submitting.
 ## Track
 
 **Best Use of TrueForge (NVIDIA DGX Spark)** — primary  
+**Best UI (iPad)** — secondary (PR Guard Console at `npm run ui`)  
 (You can enter all tracks; you can only win one.)
 
 ## GitHub link
@@ -43,9 +44,9 @@ Agent spec: `agent/pr-guard.agent.json` (API-created because the UI doesn't expo
 
 ## How did you use Qodo in your project?
 
-Every substantive change shipped via branch → PR → Qodo `/agentic_review` → fix or dismiss with reason → merge. See README § Qodo Code Review Evidence for the representative merged PR.
+Every substantive change shipped via branch → PR → Qodo `/agentic_review` → fix or dismiss with reason → merge. See README § Qodo Code Review Evidence.
 
-Example: Qodo flagged [YOUR FINDING] on PR #N; we [fixed/dismissed because REASON]. High-severity findings were addressed before merge.
+Representative PR: https://github.com/sridhar852002/pr-guard/pull/2 (re-enabled parallel subagents for Best Use of TrueForge). After Qodo reviewed, we fixed valid High findings (or dismissed intentional demo-fixture patterns with a reason in the thread), re-ran `/agentic_review`, then merged. Judges can open the PR history for the full review trail.
 
 ## Blog link (optional — Field Report / Keychron track)
 
