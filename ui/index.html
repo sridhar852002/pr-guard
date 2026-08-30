@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PR Guard — Security Review Console</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/styles.css" />
+</head>
+<body>
+  <div class="bg-grid"></div>
+  <div class="app">
+    <header class="topbar">
+      <div class="brand">
+        <div class="logo" aria-hidden="true">
+          <svg viewBox="0 0 32 32" fill="none"><path d="M16 3L28 9v14l-12 6L4 23V9L16 3z" stroke="currentColor" stroke-width="1.5"/><path d="M11 16l3 3 7-7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <div>
+          <h1>PR Guard</h1>
+          <p class="tagline">Approval-gated security review on TrueForge</p>
+        </div>
+      </div>
+      <div class="topbar-meta">
+        <div class="pill" id="harness-status">
+          <span class="dot"></span>
+          <span>Checking harness…</span>
+        </div>
+        <a class="ghost-link" id="tf-link" href="http://localhost:8790" target="_blank" rel="noopener">TrueForge ↗</a>
+      </div>
+    </header>
+
+    <main class="layout">
+      <section class="panel input-panel">
+        <label for="pr-url">Pull request URL</label>
+        <div class="input-row">
+          <input id="pr-url" type="url" placeholder="https://github.com/org/repo/pull/1" spellcheck="false" />
+          <button id="start-btn" class="btn primary">Start review</button>
+        </div>
+        <p class="hint">Uses MCP read → sandbox tests ∥ security skill → draft → <strong>Allow</strong> before post.</p>
+      </section>
+
+      <section class="pipeline" aria-label="Review pipeline">
+        <div class="stage" data-stage="read"><span class="stage-num">1</span><span class="stage-label">Read PR</span><span class="stage-sub">MCP</span></div>
+        <div class="stage" data-stage="sandbox"><span class="stage-num">2</span><span class="stage-label">Sandbox</span><span class="stage-sub">npm test</span></div>
+        <div class="stage" data-stage="security"><span class="stage-num">3</span><span class="stage-label">Security</span><span class="stage-sub">skill</span></div>
+        <div class="stage" data-stage="draft"><span class="stage-num">4</span><span class="stage-label">Draft</span><span class="stage-sub">review</span></div>
+        <div class="stage" data-stage="gate"><span class="stage-num">5</span><span class="stage-label">Approval</span><span class="stage-sub">gate</span></div>
+        <div class="stage" data-stage="done"><span class="stage-num">6</span><span class="stage-label">Posted</span><span class="stage-sub">GitHub</span></div>
+      </section>
+
+      <div class="columns">
+        <section class="panel activity-panel">
+          <div class="panel-head">
+            <h2>Live activity</h2>
+            <span class="session-id" id="session-id">—</span>
+          </div>
+          <ul id="activity-log" class="activity-log"></ul>
+        </section>
+
+        <section class="panel output-panel">
+          <div class="panel-head">
+            <h2>Agent output</h2>
+            <span class="status-badge idle" id="run-status">Idle</span>
+          </div>
+          <pre id="output" class="output">Paste a PR URL and start a review.</pre>
+        </section>
+      </div>
+    </main>
+
+    <div id="approval-overlay" class="approval-overlay hidden" role="dialog" aria-modal="true" aria-labelledby="approval-title">
+      <div class="approval-card">
+        <div class="approval-icon">⚠</div>
+        <h2 id="approval-title">Licence required</h2>
+        <p class="approval-desc">The agent wants to post a <strong>public GitHub review</strong>. This action is irreversible.</p>
+        <div class="approval-tool">
+          <code id="approval-tool-name">pull_request_review_write</code>
+          <pre id="approval-args"></pre>
+        </div>
+        <div class="approval-actions">
+          <button id="deny-btn" class="btn danger">Deny</button>
+          <button id="allow-btn" class="btn success">Allow — post review</button>
+        </div>
+        <p class="approval-foot">TrueForge pauses here by design. Judges should see this screen.</p>
+      </div>
+    </div>
+  </div>
+  <script src="/app.js"></script>
+</body>
+</html>
