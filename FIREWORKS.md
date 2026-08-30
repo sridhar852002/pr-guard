@@ -8,7 +8,7 @@ PR Guard defaults to **`fireworks/minimax-m3`** with credit-saving settings:
 |---|---|---|
 | `reasoning_effort` | `none` | Skips expensive reasoning tokens |
 | `max_tokens` | 2048 | Enough for a review comment |
-| `iteration_limit` | 25 | Caps runaway tool loops |
+| `iteration_limit` | 40 | Enough for subagent demo depth |
 | `dynamic_sub_agents` | **on** (for final demo) | Parallel test ∥ security scan — required for DGX track depth |
 | `generative_ui` | off | Less overhead |
 
