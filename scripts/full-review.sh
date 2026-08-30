@@ -4,7 +4,7 @@ set -euo pipefail
 
 BASE="${TRUEFORGE_URL:-http://localhost:8790}"
 PR_URL="${1:-https://github.com/sridhar852002/vulnerable-api-fixture/pull/1}"
-AUTO_ALLOW="${PR_GUARD_AUTO_ALLOW:-1}"
+AUTO_ALLOW="${PR_GUARD_AUTO_ALLOW:-0}"
 
 poll_turn() {
   local session=$1 turn=$2
@@ -38,7 +38,8 @@ echo "UI: $BASE"
 echo "Starting full review on $PR_URL ..."
 TURN1=$(curl -sf -X POST "$BASE/api/v1/sessions/$SESSION/turns" \
   -H "Content-Type: application/json" \
-  -d "{\"stream\":false,\"input\":[{\"type\":\"user.message\",\"content\":\"Review this pull request end to end: $PR_URL\"}]}" | jq -r '.data.id')
+  -d "$(jq -n --arg url "$PR_URL" '{stream:false,input:[{type:"user.message",content:("Review this pull request end to end: " + $url)}]}')" \
+  | jq -r '.data.id')
 echo "Turn 1: $TURN1"
 
 RESP=$(poll_turn "$SESSION" "$TURN1") || exit 1
@@ -68,7 +69,9 @@ if [[ "$ACTION_COUNT" -gt 0 ]]; then
 
   TURN2=$(curl -sf -X POST "$BASE/api/v1/sessions/$SESSION/turns" \
     -H "Content-Type: application/json" \
-    -d "{\"stream\":false,\"previous_turn_id\":\"$TURN1\",\"input\":[{\"type\":\"user.tool_approval\",\"thread_id\":\"$THREAD\",\"tool_call_id\":\"$TCALL\",\"approval\":{\"status\":\"allow\"}}]}" | jq -r '.data.id')
+    -d "$(jq -n --arg prev "$TURN1" --arg thread "$THREAD" --arg tc "$TCALL" \
+      '{stream:false,previous_turn_id:$prev,input:[{type:"user.tool_approval",thread_id:$thread,tool_call_id:$tc,approval:{status:"allow"}}]}')" \
+    | jq -r '.data.id')
   echo "Turn 2 (approval): $TURN2"
 
   RESP=$(poll_turn "$SESSION" "$TURN2") || exit 1

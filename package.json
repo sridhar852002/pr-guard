@@ -4,9 +4,10 @@
   "description": "Built for [WeMakeDevs' Agent Harness Hackathon](https://www.wemakedevs.org/hackathons/trueforge) — targeting **Best Use of TrueForge (NVIDIA DGX Spark)**.",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "cd demo/vulnerable-api && npm test",
     "voiceover": "node scripts/add-voiceover.cjs",
-    "ui": "node scripts/serve-ui.cjs"
+    "ui": "node scripts/serve-ui.cjs",
+    "record:ui": "node scripts/record-ui-demo.cjs"
   },
   "dependencies": {
     "edge-tts-universal": "^1.4.0",
@@ -23,5 +24,8 @@
   "bugs": {
     "url": "https://github.com/sridhar852002/pr-guard/issues"
   },
-  "homepage": "https://github.com/sridhar852002/pr-guard#readme"
+  "homepage": "https://github.com/sridhar852002/pr-guard#readme",
+  "devDependencies": {
+    "playwright": "^1.62.1"
+  }
 }

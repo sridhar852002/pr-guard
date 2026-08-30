@@ -41,11 +41,31 @@ function stopElapsed() {
 
 function log(msg, kind = '') {
   const icons = { warn: '!', success: '✓', tool: '⎇', sandbox: '▶', security: '◆' };
-  const icon = icons[kind] || '·';
   const li = document.createElement('li');
   if (kind) li.classList.add(kind);
-  li.innerHTML = `<span class="time">${ts()}</span><span class="icon">${icon}</span><span>${msg}</span>`;
+  const time = document.createElement('span');
+  time.className = 'time';
+  time.textContent = ts();
+  const iconEl = document.createElement('span');
+  iconEl.className = 'icon';
+  iconEl.textContent = icons[kind] || '·';
+  const text = document.createElement('span');
+  text.textContent = String(msg);
+  li.append(time, iconEl, text);
   $('#activity-log').prepend(li);
+}
+
+function validatePrUrl(raw) {
+  let u;
+  try {
+    u = new URL(String(raw).trim());
+  } catch {
+    return null;
+  }
+  if (u.protocol !== 'https:') return null;
+  if (!/^github\.com$/i.test(u.hostname)) return null;
+  if (!/^\/[\w.-]+\/[\w.-]+\/pull\/\d+\/?$/.test(u.pathname)) return null;
+  return `${u.origin}${u.pathname.replace(/\/$/, '')}`;
 }
 
 function setStatus(text, cls) {
@@ -260,8 +280,8 @@ async function pollTurn(sid, tid) {
 }
 
 async function startReview() {
-  const pr = $('#pr-url').value.trim();
-  if (!pr) return alert('Enter a pull request URL');
+  const pr = validatePrUrl($('#pr-url').value);
+  if (!pr) return alert('Enter a valid HTTPS GitHub pull request URL');
 
   if (!(await checkHarness())) {
     return alert('Start TrueForge first:\nnpx @truefoundry/trueforge@latest');
@@ -300,7 +320,8 @@ async function startReview() {
 }
 
 async function submitApproval(allow) {
-  if (!pendingAction || !sessionId || !turnId) return;
+  const action = pendingAction;
+  if (!action || !sessionId || !turnId) return;
   hideApproval();
   startElapsed();
   setStatus('Resuming', 'running');
@@ -309,14 +330,14 @@ async function submitApproval(allow) {
     allow ? 'success' : 'warn',
   );
 
-  const tc = pendingAction.tool_calls[0];
+  const tc = action.tool_calls[0];
   const turn = await api('POST', `/api/v1/sessions/${sessionId}/turns`, {
     stream: false,
     previous_turn_id: turnId,
     input: [
       {
         type: 'user.tool_approval',
-        thread_id: pendingAction.thread_id,
+        thread_id: action.thread_id,
         tool_call_id: tc.id,
         approval: { status: allow ? 'allow' : 'deny' },
       },

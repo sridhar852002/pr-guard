@@ -1,10 +1,10 @@
 # Full-length live demo (use THIS)
 
-## File (ready to upload)
+## File (ready to upload — NEW console UI)
 
-**`demo/recordings/pr-guard-demo-with-voice.mp4`** — full demo + human-like AI narration (~119s)
+**`demo/recordings/pr-guard-console-with-voice.mp4`** — PR Guard Console + AI voice (~202s)
 
-Silent source (if you re-voice): `demo/recordings/pr-guard-demo-live.webm`
+Also: silent `pr-guard-console-demo.webm` · older TrueForge UI: `pr-guard-demo-with-voice.mp4`
 
 | | |
 |---|---|

@@ -84,9 +84,9 @@ Winning submissions demo restart survival:
 Hackathon rule: every substantive change goes through a PR reviewed by Qodo before merge.
 
 - **Representative PR:** https://github.com/sridhar852002/pr-guard/pull/1 — submission pack: PR Guard Console UI, voiceover pipeline, Qodo workflow docs
-- **What Qodo surfaced:** *(update after `/agentic_review` completes — e.g. shell injection in demo scripts, missing error handling on curl)*
-- **What we did:** *(fixed valid Highs / dismissed with reason in Qodo thread)*
-- **Follow-up review:** re-ran `/agentic_review` after fixes → merged
+- **What Qodo surfaced:** High — wildcard CORS on API proxy; unvalidated PR URL in agent prompt; `innerHTML` log sink; `submitApproval` cleared pending action before use; CLI auto-allowed reviews by default. Medium — missing Playwright dep, failing `npm test`, qodo-check false positives.
+- **What we did:** Removed wildcard CORS + allowlisted loopback API routes; validated GitHub PR URLs; safe DOM logging; fixed approval race; default `PR_GUARD_AUTO_ALLOW=0`; added Playwright devDep + fixture `npm test`; hardened qodo-check exits.
+- **Follow-up review:** `/agentic_review` after fixes → merge
 
 **Setup:** [`QODO_SETUP.md`](QODO_SETUP.md) · verify: `./scripts/qodo-check.sh`
 
