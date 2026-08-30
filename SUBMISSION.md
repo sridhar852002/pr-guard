@@ -10,6 +10,7 @@ Replace `YOUR_*` placeholders before submitting.
 ## Track
 
 **Best Use of TrueForge (NVIDIA DGX Spark)** — primary  
+**Best UI (iPad)** — secondary (PR Guard Console at `npm run ui`)  
 (You can enter all tracks; you can only win one.)
 
 ## GitHub link
